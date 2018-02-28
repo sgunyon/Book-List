@@ -1,16 +1,17 @@
 from database import Database
-from search import Search
+from api import Search
 from query import Query
 
 def search():
     method = input('Search Booklist or New Books: ')
 
     if method == 'Booklist':
+        print('Search Criteria: title, author, genre, rereads')
         criteria = input('Enter search criteria: ')
-        engine = Database()
-        retrieve = Query(criteria, engine.return_engine())
-        session = Query(criteria, engine.return_engine())
-        retrieve.search_booklist(session.start_session())
+        db = Database()
+        retrieve = Query(criteria, db.return_engine())
+        session = Query(criteria, db.return_engine())
+        retrieve.search_booklist(session.start_session(db.return_engine()))
     elif method == 'New Books':
         search_for_suggestions()
     else:

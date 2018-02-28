@@ -1,8 +1,8 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-import database
-import search
+from database import Base, Book, Details
+import api
 
 
 class Query():
@@ -18,6 +18,7 @@ class Query():
         # Acts as a 'staging zone' for all objects loaded into the db session object
         DBsession = sessionmaker(bind=engine)
         session = DBsession()
+        return session
 
     # Insert new book and details into the tables
     def commit_to_db(self, session,engine):
@@ -42,7 +43,7 @@ class Query():
     # Query database
     def search_booklist(self, session):
         print('Search Booklist by: title, author, genre, or rereads')
-        #self.criteria = input('Enter search criteria: ')
+        session = self.start_session(self.engine)
 
         if self.criteria == 'title':
             print(session.query(Book.title).all())

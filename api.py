@@ -10,13 +10,12 @@ api_key = 'Lu9ihra0oAJWLMkIcrDxw'
 base_url = 'https://www.goodreads.com/search/index.xml?key='
 
 class Search():
-    def __init__(self, title, author):
-        self.title = title
-        self.author = author
+    def __init__(self):
+        pass
 
     def api_call_title(self):
-        action = input('Enter action: ')
-        self.title = input('Enter a title: ')
+        action = input('Enter action (search or add): ')
+        title = input('Enter a title: ')
 
         if action == 'search':
             xml_string = (base_url + api_key + '&q=' + title.replace(' ', '%20'))
@@ -29,7 +28,7 @@ class Search():
         return tree
 
     def api_call_author(self):
-        self.author = input('Enter an author: ')
+        author = input('Enter an author: ')
         xml_string = (base_url + api_key + '&q=' + author.replace(' ', '%20'))
         xml_file = urlopen(xml_string)
         tree = ET.ElementTree(file=xml_file)
@@ -52,13 +51,12 @@ class Search():
             else:
                 continue
 
-
         return book_title.text, author.text, genre
 
     def search_by_author(self):
-        tree = api_call_author()
+        tree = self.api_call_author()
         print('\n'.join([elem.text for elem in tree.iter(tag='title')]))
 
     def search_by_title(self):
-        tree = api_call_title()
+        tree = self.api_call_title()
         print('\n'.join([elem.text for elem in tree.iter(tag='title')]))

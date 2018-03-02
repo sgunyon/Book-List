@@ -36,7 +36,7 @@ class Search():
         return tree
 
     def book_info(self):
-        tree = api_call_title()
+        tree = self.api_call_title()
         book_title = tree.find('.//title')
         author = tree.find('.//name')
 

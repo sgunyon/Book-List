@@ -1,56 +1,47 @@
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 
+from api import Search
 from database import Base, Book, Details
-import api
 
 
 class Query():
-    def __init__(self, criteria, engine):
-        self.criteria = criteria
+    def __init__(self, engine):
         self.engine = engine
-
-    def start_session(self, engine):
-        # Bind the engine to the metadata of Base class so
-        # declaratives can be accessed in db instance
         Base.metadata.bind = engine
         # Establishes all conversations with the database
         # Acts as a 'staging zone' for all objects loaded into the db session object
         DBsession = sessionmaker(bind=engine)
-        session = DBsession()
-        return session
+        self.session = DBsession()
+
+    def search_booklist(self, criteria):
+        print('Search Booklist by: title, author, genre, or rereads')
+
+        if criteria == 'title':
+            print(self.session.query(Book.title).all())
+        elif criteria == 'author':
+            print(self.session.query(Details.author).all())
+        elif criteria == 'genre':
+            print(self.session.query(Details.genre).all())
+        elif criteria == 'rereads':
+            number = input('Number of rereads: ')
+            print(self.session.query(Details).filter(Details.rereads == number))
 
     # Insert new book and details into the tables
-    def commit_to_db(self, session,engine):
+    def commit_to_db(self):
         title = input('Enter a title: ')
         author = input('Enter an author: ')
         number = int(input('Enter # of times read: '))
-        new_search = Search(title, author)
+        new_search = Search()
         book, author, genre = new_search.book_info()
-        new_book = Book(title = book)
-        session.add(new_book)
-        session.commit()
+        new_book = Book(title=book)
+        self.session.add(new_book)
+        self.session.commit()
 
         new_details = Details(
-                                author = author,
-                                genre = genre,
-                                number_of_rereads = number,
-                                book = new_book
-                                )
-        session.add(new_details)
-        session.commit()
-
-    # Query database
-    def search_booklist(self, session):
-        print('Search Booklist by: title, author, genre, or rereads')
-        session = self.start_session(self.engine)
-
-        if self.criteria == 'title':
-            print(session.query(Book.title).all())
-        elif self.criteria == 'author':
-            print(session.query(Details.author).all())
-        elif self.criteria == 'genre':
-            print(session.query(Details.genre).all())
-        elif self.criteria == 'rereads':
-            number = input('Number of rereads: ')
-            print(session.query(Details).filter(Details.rereads==number))
+            author=author,
+            genre=genre,
+            number_of_rereads=number,
+            book=new_book
+            )
+        self.session.add(new_details)
+        self.session.commit()

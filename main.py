@@ -4,15 +4,15 @@ from query import Query
 
 def main():
     db = Database()
+    engine = db.engine
 
     selection = input('Search Bookshelf or Library: ').lower()
 
     if selection == 'bookshelf':
         print('Search Criteria: title, author, genre, rereads')
         criteria = input('Enter search criteria: ')
-        retrieve = Query(criteria, db.return_engine())
-        session = Query(criteria, db.return_engine())
-        retrieve.search_booklist(session.start_session(db.return_engine()))
+        retrieve = Query(engine)
+        retrieve.search_booklist(criteria)
     elif selection == 'library':
         criteria = input('Search by author or title?: ')
         search = Search()

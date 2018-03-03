@@ -1,5 +1,5 @@
 from database import Database
-from search import search_keyword, search_booklist, get_tree, book_info
+from search import search_keyword, search_booklist, get_details, book_info
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
             selection = input(
                 'Please provide the number for the book you would like to add: '
             )
-            tree = get_tree(search_dict[int(selection)])
+            tree = get_details(search_dict[int(selection)])
             title, author, genre = book_info(tree)
             db.commit_to_db(session, title, author, genre)
 

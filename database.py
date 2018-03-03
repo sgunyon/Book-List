@@ -22,7 +22,6 @@ class Details(BASE):
     id = Column(Integer, primary_key=True)
     author = Column(String(50))
     genre = Column(String(50))
-    number_of_rereads = Column(Integer, nullable=False)
     book_id = Column(Integer, ForeignKey('book.id'))
     book = relationship('Book', back_populates='detail')
 

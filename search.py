@@ -4,8 +4,8 @@ from urllib.request import urlopen
 from database import Book, Details
 
 SEARCH_URL = 'https://www.goodreads.com/search/index.xml?key='
-DETAILS_URL = 'https://www.goodreads.com/book/title.xml?'
-API_KEY = 'Lu9ihra0oAJWLMkIcrDxw'
+DETAILS_URL = 'https://www.goodreads.com/book/title.xml?key='
+API_KEY = 'Enter your API key here'
 
 def search_keyword():
     keyword = input('Enter a search term: ')
@@ -18,15 +18,16 @@ def search_keyword():
 
     [author_list.append(author.text) for author in tree.iter(tag='name')]
     [title_list.append(title.text) for title in tree.iter(tag='title')]
-    result_dict = dict(zip(author_list, title_list))
-    count = 0
-    for keys,values in result_dict.items():
-        print(count, '- ', values + ' by ' + keys)
+    result_dict = dict(zip(title_list, author_list))
+    count = 1
+
+    for keys, values in result_dict.items():
+        print(count, keys, 'by', values)
         count += 1
 
-    return result_dict
+    return title_list, author_list
 
-def get_details(title, author):
+def get_details(author, title):
     xml_string = (
         DETAILS_URL + API_KEY +
         '&title=' + title.replace(' ', '%20') +
@@ -65,6 +66,3 @@ def search_booklist(criteria, session):
         print(session.query(Details.author).all())
     elif criteria == 'genre':
         print(session.query(Details.genre).all())
-    elif criteria == 'rereads':
-        number = input('Number of rereads: ')
-        print(session.query(Details).filter(Details.rereads == number))

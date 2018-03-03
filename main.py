@@ -15,7 +15,7 @@ def main():
         search_booklist(criteria, session)
 
     elif selection == 'library':
-        search_dict = search_keyword()
+        title, author = search_keyword()
         add = input(
             'Would you like to add any of these books to your bookshelf? (yes/no) '
             ).lower()
@@ -23,7 +23,8 @@ def main():
             selection = input(
                 'Please provide the number for the book you would like to add: '
             )
-            tree = get_details(search_dict[int(selection)])
+            index = (int(selection) - 1)
+            tree = get_details(author[index], title[index])
             title, author, genre = book_info(tree)
             db.commit_to_db(session, title, author, genre)
 

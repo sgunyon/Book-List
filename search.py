@@ -5,7 +5,7 @@ from database import Book, Details
 
 SEARCH_URL = 'https://www.goodreads.com/search/index.xml?key='
 DETAILS_URL = 'https://www.goodreads.com/book/title.xml?key='
-API_KEY = 'Enter your API key here'
+API_KEY = 'API KEY'
 
 def search_keyword():
     keyword = input('Enter a search term: ')
@@ -18,11 +18,10 @@ def search_keyword():
 
     [author_list.append(author.text) for author in tree.iter(tag='name')]
     [title_list.append(title.text) for title in tree.iter(tag='title')]
-    result_dict = dict(zip(title_list, author_list))
     count = 1
 
-    for keys, values in result_dict.items():
-        print(count, keys, 'by', values)
+    for keys in title_list:
+        print(count, keys)
         count += 1
 
     return title_list, author_list
@@ -42,6 +41,7 @@ def get_details(author, title):
 def book_info(tree):
     book_title = tree.find('.//title')
     author = tree.find('.//name')
+    genre = ""
 
     parent = tree.find('.//popular_shelves')
     valid_genres = [
@@ -50,7 +50,6 @@ def book_info(tree):
         ]
 
     for child in parent:
-        genre = child.get('name')
         if child.get('name') in valid_genres:
             genre = child.get('name')
             break

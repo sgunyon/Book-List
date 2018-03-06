@@ -108,10 +108,7 @@ pyvenv.cfg
 
 # mypy
 .mypy_cache/
-<<<<<<< HEAD
 
 # project-specific
 api.py
 database/test.db
-=======
->>>>>>> 1ef57941b20018035ca330f9195be8498d6a21de

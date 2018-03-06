@@ -31,6 +31,8 @@ class Database():
         """ Creates engine """
         self.engine = create_engine('sqlite:///database/test.db')
         """ Creates the database if it doesn't already exist """
+        if not os.path.exists('database'):
+            os.makedirs('database')
         if not os.path.isfile('database/test.db'):
             conn = sqlite3.connect('database/test.db')
             # Populates the tables for a newly created database

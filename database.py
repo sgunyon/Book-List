@@ -1,8 +1,8 @@
 import os
 import sqlite3
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 # Declaratives allows table, mapper, and class object to be defined in one definition
@@ -13,17 +13,9 @@ class Book(BASE):
     __tablename__ = 'book'
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
-    detail = relationship('Details', back_populates='book')
-
-class Details(BASE):
-    """ Outlines the 'details' table """
-    __tablename__ = 'details'
-
-    id = Column(Integer, primary_key=True)
     author = Column(String(50))
     genre = Column(String(50))
-    book_id = Column(Integer, ForeignKey('book.id'))
-    book = relationship('Book', back_populates='detail')
+    read_count = Column(Integer())
 
 class Database():
     """ Database create or interaction """
@@ -48,15 +40,12 @@ class Database():
         return session
 
     # Insert new book and details into the tables
-    def commit_to_db(self, session, title, author, genre):
-        new_book = Book(title=title)
-        session.add(new_book)
-        session.commit()
-
-        new_details = Details(
+    def commit_to_db(self, session, title, author, genre, read_count):
+        new_book = Book(
+            title=title,
             author=author,
             genre=genre,
-            book=new_book
+            read_count=read_count,
             )
-        session.add(new_details)
+        session.add(new_book)
         session.commit()

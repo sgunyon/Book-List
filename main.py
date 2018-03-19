@@ -1,6 +1,6 @@
 from database import Database
 from search import search_keyword, search_details, book_info
-from bookshelf import search_booklist, get_details, reads
+from bookshelf import search_booklist, get_details, update_reads
 
 
 def main():
@@ -8,26 +8,30 @@ def main():
     session = db.session()
     selection = []
 
+    print('\n###########################################')
+    print('#  Welcome to the Goodreads Book Manager  #')
+    print('###########################################')
+
     while selection != 'exit':
-        selection = input('Search Bookshelf or Library?: ').lower()
+        selection = input('\nSearch Bookshelf or Library?: ').lower()
 
         if selection == 'bookshelf':
             search_booklist(session)
-            selection = input('Enter a number for book details: ')
+            selection = input('\nEnter a number for book details: ')
             book_id = get_details(session, selection)
-            selection = input('Change read count?: ').lower()
+            selection = input('\nChange read count?: ').lower()
             if selection == 'yes':
-                selection = input('New read count: ')
-                reads(session, book_id, selection)
+                selection = input('\nNew read count: ')
+                update_reads(session, book_id, selection)
 
         elif selection == 'library':
             title, author = search_keyword()
             selection = input(
-                'Would you like to add any of these books to your bookshelf? (yes/no) '
+                '\nWould you like to add any of these books to your bookshelf? (yes/no) '
                 ).lower()
             if selection == 'yes':
                 selection = input(
-                    'Please provide the number for the book you would like to add: '
+                    '\nPlease provide the number for the book you would like to add: '
                 )
                 selection = (int(selection) - 1)
                 tree = search_details(author[selection], title[selection])

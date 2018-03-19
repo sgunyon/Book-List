@@ -1,8 +1,9 @@
+import itertools
+
 from database import Book
-from sqlalchemy import *
 
 def search_booklist(session):
-    keyword = input('Enter a search term: ')
+    keyword = input(' \nEnter a search term: ')
     criteria = session.query(
         Book.id, Book.title).filter(
         Book.title.ilike('%' + keyword + '%')).all()
@@ -14,14 +15,15 @@ def get_details(session, book_id):
             Book.id == book_id).all()
     for detail in selection:
         print('\n')
-        print('Title: ', detail[0])
-        print('Author: ', detail[1])
-        print('Genre: ', detail[2])
+        print('Title:      ', detail[0])
+        print('Author:     ', detail[1])
         print('Read count: ', detail[3])
-        print('\n')
+        print('Genres:     ')
+        for genre in detail[2]:
+            print('            ', genre)
 
         return detail[4]
 
-def reads(session, book, read_count):
+def update_reads(session, book, read_count):
     book_target = session.query(Book).filter(Book.id == book).first()
     book_target.read_count = read_count

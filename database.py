@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, PickleType
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -14,7 +14,7 @@ class Book(BASE):
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
     author = Column(String(50))
-    genre = Column(String(50))
+    genre = Column(PickleType)
     read_count = Column(Integer())
 
 class Database():

@@ -1,12 +1,17 @@
 import os
 import sqlite3
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy import create_engine
 
 # Declaratives allows table, mapper, and class object to be defined in one definition
 BASE = declarative_base()
+
+book_genres = Table('book_genres', BASE.metadata,
+                    Column('book_id', Integer, ForeignKey('book.id')),
+                    Column('genre_id', Integer, ForeignKey('genre.id'))
+                   )
 
 class Book(BASE):
     """ Outlines the 'book' table """
@@ -14,8 +19,17 @@ class Book(BASE):
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
     author = Column(String(50))
-    genre = Column(String(50))
-    read_count = Column(Integer())
+    read_count = Column(Integer)
+    good_reads_id = Column(Integer)
+    genres = relationship("Genre", backref="book", secondary=book_genres)
+
+
+class Genre(BASE):
+    """ Outlines the 'genre' table """
+    __tablename__ = 'genre'
+    id = Column(Integer, primary_key=True)
+    genre = Column(String(255), nullable=False)
+
 
 class Database():
     """ Database create or interaction """
@@ -40,12 +54,15 @@ class Database():
         return session
 
     # Insert new book and details into the tables
-    def commit_to_db(self, session, title, author, genre, read_count):
+    def commit_to_db(self, session, title, author, read_count, gr_id, genres):
         new_book = Book(
             title=title,
             author=author,
-            genre=genre,
             read_count=read_count,
+            good_reads_id=gr_id
             )
+
+        new_book.genres = [Genre(genre=genre) for genre in genres]
+
         session.add(new_book)
         session.commit()

@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
-from database import Book
 from api import HIDDEN_KEY
 
 SEARCH_URL = 'https://www.goodreads.com/search/index.xml?key='
@@ -42,20 +41,13 @@ def search_details(author, title):
 def book_info(tree):
     book_title = tree.find('.//title')
     author = tree.find('.//name')
-    genre = ""
+    gr_id = tree.find('.//id')
+    genres = []
     read_count = 0
 
     parent = tree.find('.//popular_shelves')
-    valid_genres = [
-        'fiction', 'classics', 'regency', 'victorian',
-        'science-fiction', 'fantasy', 'paranormal'
-        ]
 
     for child in parent:
-        if child.get('name') in valid_genres:
-            genre = child.get('name')
-            break
-        else:
-            continue
+        genres.append(child.get('name'))
 
-    return book_title.text, author.text, genre, read_count
+    return book_title.text, author.text, read_count, gr_id.text, genres

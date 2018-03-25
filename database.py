@@ -29,6 +29,7 @@ class Genre(BASE):
     __tablename__ = 'genre'
     id = Column(Integer, primary_key=True)
     genre = Column(String(255), nullable=False)
+    popularity = Column(Integer)
 
 
 class Database():
@@ -62,7 +63,7 @@ class Database():
             good_reads_id=gr_id
             )
 
-        new_book.genres = [Genre(genre=genre) for genre in genres]
+        new_book.genres = [Genre(genre=genre, popularity=pop) for genre, pop in genres.items()]
 
         session.add(new_book)
         session.commit()

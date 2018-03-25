@@ -42,12 +42,12 @@ def book_info(tree):
     book_title = tree.find('.//title')
     author = tree.find('.//name')
     gr_id = tree.find('.//id')
-    genres = []
+    genres = {}
     read_count = 0
 
     parent = tree.find('.//popular_shelves')
 
     for child in parent:
-        genres.append(child.get('name'))
+        genres[child.get('name')] = child.get('count')
 
     return book_title.text, author.text, read_count, gr_id.text, genres

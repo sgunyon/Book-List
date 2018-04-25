@@ -1,5 +1,5 @@
-from database import Book, Database
-from search import search_keyword, search_details, book_info
+from src.database import Book, Database
+from src.search import search_keyword, search_details, book_info
 
 db = Database()
 session = db.session()

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Goodreads Book Manager</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Goodreads Book Manager</h1>
+            <form method="POST" action="/">
+                <input type="submit" value="View Bookshelf" name="view" class="btn-success" role="button" ahref="booklist">
+            </form>
+        </div>
+        <div class="row marketing">
+            <div class="col-lg-6">
+
+                <h4>Search Library</h4>
+                <p>Search Goodreads for books and add them to your personal bookshelf.</p>
+                <form method="POST" action="/">
+                    <p class="lead">
+                        <input type="text" name="search_gr">
+                        <input type="submit" value="Search" class="btn-success" role="button">
+                    </p>
+                </form>
+
+                <h4>Get Suggestions from Library</h4>
+                <p>Get suggestions from Goodreads.</p>
+                <form method="POST" action="/">
+                    <p class="lead">
+                        <input type="text" name="get_lib_suggetions">
+                        <input type="submit" value="Suggest" class="btn-success" role="button">
+                    </p>
+                </form>
+            </div>
+
+            <div class="col-lg-6">
+
+                <h4>Search Bookshelf</h4>
+                <p>Search your bookshelf and update information on saved books.</p>
+                <form method="POST" action="/">
+                    <p class="lead">
+                        <input type="text" name="search_bs">
+                        <input type="submit" value="Search" class="btn-success" role="button">
+                    </p>
+                </form>
+
+                <h4>Get Suggestions from Bookshelf</h4>
+                <p>Get suggestions from your bookshelf.</p>
+                <form method="POST" action="/">
+                    <p class="lead">
+                        <input type="text" name="get_shelf_suggetions">
+                        <input type="submit" value="Suggest" class="btn-success" role="button">
+                    </p>
+                </form>
+
+            </div>
+
+        </div>
+
+        <footer class="footer">
+        </footer>
+
+    </div>
+</body>
+
+</html>

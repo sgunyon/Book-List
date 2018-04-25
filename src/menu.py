@@ -1,8 +1,8 @@
 import os
 import sys
 
-from search import search_keyword
-from bookshelf import search_bookshelf, update_bookshelf
+from src.search import search_keyword
+from src.bookshelf import search_bookshelf, update_bookshelf
 
 
 menu_action = {}
@@ -27,10 +27,10 @@ def exec_menu(option):
     else:
         try:
             menu_action[op]()
-            option = input('Select an option >> ')
+            #option = input('Select an option >> ')
         except KeyError:
             print('Invalid Selection!')
-            menu_action['main_menu']()
+        menu_action['main_menu']()
 
 def bookshelf_menu():
     print('\n Bookshelf Menu')

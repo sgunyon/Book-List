@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
-from api import HIDDEN_KEY
+from src.api import HIDDEN_KEY
 
 SEARCH_URL = 'https://www.goodreads.com/search/index.xml?key='
 DETAILS_URL = 'https://www.goodreads.com/book/title.xml?key='
@@ -33,6 +33,7 @@ def search_details(author, title):
         '&title=' + title.replace(' ', '%20') +
         '&author=' + author.replace(' ', '%20')
         )
+    print(xml_string)
     xml_file = urlopen(xml_string)
     tree = ET.ElementTree(file=xml_file)
 

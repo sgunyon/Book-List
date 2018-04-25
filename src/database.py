@@ -23,6 +23,9 @@ class Book(BASE):
     good_reads_id = Column(Integer)
     genres = relationship("Genre", backref="book", secondary=book_genres)
 
+    def __repr__(self):
+        return "<Title: {}>".format(self.title)
+
 
 class Genre(BASE):
     """ Outlines the 'genre' table """
